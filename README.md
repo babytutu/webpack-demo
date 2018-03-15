@@ -1,4 +1,6 @@
 # 说明
+webpack4 demo，加入了常用loader，eslint，babel，用vue做了个例子
+css文件独立的插件已经换为mini-css-extract-plugin，但没有之前的
 
 ## install
 
@@ -9,7 +11,7 @@ npm i
 ## 常用命令
 
 - 启动服务
-`配置webpack/webpack.dev.js`
+`配置webpack/webpack.dev.js`
 
 ```bash
 npm start
@@ -23,7 +25,7 @@ npm run lint-fix
 ```
 
 - build
-`配置webpack/webpack.prod.js`
+`配置webpack/webpack.prod.js`
 
 ```bash
 npm run build

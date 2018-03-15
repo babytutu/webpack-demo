@@ -8,7 +8,14 @@
     "lint-fix": "eslint src --ext .js,.vue --fix",
     "build": "webpack --config webpack/webpack.prod.js"
   },
-  "keywords": ["webpack", "vue", "eslint", "babel", "stylus", "postcss"],
+  "keywords": [
+    "webpack",
+    "vue",
+    "eslint",
+    "babel",
+    "stylus",
+    "postcss"
+  ],
   "author": "babytutu",
   "license": "ISC",
   "devDependencies": {
