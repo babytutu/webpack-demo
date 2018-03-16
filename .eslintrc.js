@@ -6,9 +6,6 @@ module.exports = {
     es6: true,
   },
   parser: 'babel-eslint',
-  globals: {
-    AMap: true,
-  },
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,

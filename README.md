@@ -1,6 +1,7 @@
 # 说明
-webpack4 demo，加入了常用loader，eslint，babel，用vue做了个例子
-css文件独立的插件已经换为mini-css-extract-plugin，但没有之前的
+- webpack4 demo，加入了常用loader，eslint，babel，用vue做了个例子
+- css文件独立的插件已经换为mini-css-extract-plugin，使用更简单，但配置项过少，还有待进一步优化
+- 根据整个研究过程写了几个小demo，在`demo`目录
 
 ## install
 
@@ -33,8 +34,12 @@ npm run build
 
 ## 附加配置
 
-- eslint
 - babel
+- eslint
+- postcss
+- stylus
+- vue
+- vue-router
 
 ## 目录
 ```bash
@@ -60,4 +65,14 @@ npm run build
 ├──  package.json                  基础信息
 ├──  postcss.config.js             postcss配置
 └──  README.md                     看看
+```
+
+## vue和stylus需要的几个包
+
+```json
+  "stylus": "^0.54.5",
+  "stylus-loader": "^3.0.2",
+  "vue-loader": "^14.2.1",
+  "vue-style-loader": "^4.0.2",
+  "vue-template-compiler": "^2.5.16",
 ```

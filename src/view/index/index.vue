@@ -10,11 +10,9 @@
 </template>
 
 <script>
-import verIcon from './../../components/ver-icon.vue'
-
 export default {
   components: {
-    verIcon
+    verIcon: () => import('./../../components/ver-icon.vue')
   }
 }
 </script>
