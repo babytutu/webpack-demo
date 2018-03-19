@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack =  require('webpack')
 
 let favicon = path.join(process.cwd(), 'favicon.ico')
 
@@ -12,12 +13,20 @@ module.exports = {
   entry: {
     app: './src/index.js',
   },
+  output: {
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
+    path: path.join(process.cwd(), 'dist'),
+  },
   plugins: [
     new HtmlWebpackPlugin({
       favicon,
       title: 'webpack-demo',
       template: path.join(process.cwd(), 'index.template.ejs'),
     }),
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 50000 // Minimum number of characters
+    })
   ],
   module: {
     rules: [
@@ -42,11 +51,6 @@ module.exports = {
         ],
       }
     ],
-  },
-  output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
-    path: path.join(process.cwd(), 'dist'),
   },
   resolve: {
     alias: {
