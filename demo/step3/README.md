@@ -17,7 +17,7 @@ cd step3
   |- /dist
     |- index.html
   |- /src
-    |- webpack.svg
+    |- webpack.png
     |- style.css
     |- index.js
 +   |- print.js
@@ -34,7 +34,7 @@ export default function printMe() {
 src/index.js
 ```js
   import './style.css';
-  import Icon from './webpack.svg';
+  import Icon from './webpack.png';
 + import printMe from './print.js';
 
   function component() {

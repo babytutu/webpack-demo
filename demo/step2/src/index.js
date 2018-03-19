@@ -1,5 +1,5 @@
 import './style.css';
-import Icon from './webpack.svg';
+import Icon from './webpack.png';
 
 function component() {
   var element = document.createElement('div');

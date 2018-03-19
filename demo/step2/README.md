@@ -112,7 +112,7 @@ npm i file-loader -D
   |- /dist
     |- index.html
   |- /src
-+   |- webpack.svg
++   |- webpack.png
     |- style.css
     |- index.js
 ```
@@ -121,7 +121,7 @@ npm i file-loader -D
 src/index.js
 ```js
   import './style.css';
-+ import Icon from './webpack.svg';
++ import Icon from './webpack.png';
 
   function component() {
     var element = document.createElement('div');
