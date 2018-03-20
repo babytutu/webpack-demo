@@ -137,11 +137,12 @@ webpack/webpack.common.js
   },
 ```
 
-## 生产环境，分离css文件
+## 生产环境，分离,压缩css文件
 - 很多原有插件对webpack4的支持都不好，mini-css-extract-plugin是个分离css的新插件，使用简单
 
 ```bash
 npm i mini-css-extract-plugin -D
+npm i optimize-css-assets-webpack-plugin -D
 ```
 
 修改配置，开发和生产的配置分开写
@@ -161,6 +162,7 @@ npm i mini-css-extract-plugin -D
 webpack.prod.js
 ```js
 + const MiniCssExtractPlugin = require('mini-css-extract-plugin')
++ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
   module.exports = merge(common, {
     plugins: [
@@ -170,6 +172,7 @@ webpack.prod.js
 +       filename: '[name].css',
 +       chunkFilename: '[id].css',
 +     }),
++     new OptimizeCssAssetsPlugin()
     ],
     module: {
       rules: [
@@ -186,14 +189,14 @@ webpack.prod.js
   }
 ```
 
-执行`npm run build`，会发现css被单独打包了
+执行`npm run build`，会发现css被单独打包并压缩了
 
 ## 再优化一点点
 控制chunk最小值，让代码分割不过于碎片化
 ```js
   plugins: [
-    new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 50000 // Minimum number of characters
-    })
++   new webpack.optimize.MinChunkSizePlugin({
++     minChunkSize: 50000 // Minimum number of characters
++   })
   ]
 ```
