@@ -5,22 +5,17 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parser: 'babel-eslint',
   parserOptions: {
+    parser: 'babel-eslint',
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
     },
   },
-  extends: 'airbnb-base',
-  // required to lint *.vue files
-  plugins: [
-    'html',
+  extends: [
+    'plugin:vue/essential',
+    'eslint:recommended'
   ],
   // add your custom rules here
   rules: {
-    'no-debugger': [1],
-    'no-alert': [1],
-    'no-console': [1],
-    'no-new': [0],
   },
 }

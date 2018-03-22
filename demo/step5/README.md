@@ -31,20 +31,6 @@ webpack/webpack.common.js
 }
 ```
 
-动态导入
-- 由于 import() 会返回一个 promise，因此它可以和 async 函数一起使用。但是，需要使用像 Babel 这样的预处理器和Syntax Dynamic Import Babel Plugin
-
-```bash
-npm i babel-plugin-syntax-dynamic-import -D
-```
-修改babel配置
-.babelrc
-```
-{
-  "presets": ["env"],
-  "plugins": ["syntax-dynamic-import"]
-}
-```
 
 ## 加入eslint-loader
 ```bash
@@ -76,15 +62,7 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parser: 'babel-eslint', // 有些代码eslint不识别，需要先进行babel转译
   extends: 'airbnb-base', // 就是刚才初始化选择的验证包咯
-  // add your custom rules here
-  rules: {
-    'no-debugger': [1],
-    'no-alert': [1],
-    'no-console': [0],
-    'no-new': [0],
-  },
 }
 ```
 
@@ -116,7 +94,6 @@ npm i postcss-loader -D
 postcss.config.js
 ```js
 module.exports = {
-  parser: 'sugarss',
   plugins: {
     'postcss-import': {},
     'postcss-cssnext': {}

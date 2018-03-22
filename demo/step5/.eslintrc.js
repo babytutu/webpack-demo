@@ -1,17 +1,9 @@
 module.exports = {
-  root: true,
-  env: {
+  root: true, // 确保当前目录都用这个规则，不去遍历父级目录，可以给每个目录单独设置eslint规则
+  env: {      // 环境设置
     browser: true,
     node: true,
     es6: true,
   },
-  parser: 'babel-eslint',
-  extends: 'airbnb-base',
-  // add your custom rules here
-  rules: {
-    'no-debugger': [1],
-    'no-alert': [1],
-    'no-console': [0],
-    'no-new': [0],
-  },
-};
+  extends: 'airbnb-base', // 就是刚才初始化选择的验证包咯
+}

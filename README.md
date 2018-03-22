@@ -48,8 +48,7 @@ npm run build
 │     ├──  step2                   附件的引入（Asset Management）
 │     ├──  step3                   打包输出（Output Management）
 │     ├──  step4                   开发（Development）
-│     ├──  step5                   完成webpack配置
-│     └──  step6                   结合vue开发
+│     └──  step5                   完成webpack配置
 │
 ├──  src                           vue目录
 │     ├──  assets                  图片，样式等
@@ -75,19 +74,130 @@ npm run build
 └──  README.md                     看看
 ```
 
-## vue和stylus需要的几个包
+## 结合vue开发
 
-```json
-"devDependencies": {
-  "eslint-plugin-import": "^2.9.0",
-  "stylus": "^0.54.5",
-  "stylus-loader": "^3.0.2",
-  "vue-loader": "^14.2.1",
-  "vue-style-loader": "^4.0.2",
-  "vue-template-compiler": "^2.5.16",
-},
-"dependencies": {
-  "vue": "^2.5.16",
-  "vue-router": "^3.0.1"
+```bash
+npm i vue vue-router
+npm i vue-loader vue-style-loader vue-template-compiler -D
+npm i stylus stylus-loader -D
+```
+
+需要为`.vue`和`.styl`文件增加`loader`设置
+vue推荐用单文件模式开发，就是`.vue`文件中包含了`script`和`css`等
+开发模式，优先于`postcss-loader`加载的规则如`stylus-loader`需要设置`sourceMap`
+
+webpack.dev.js
+```js
++  {
++    test: /\.styl$/,
++    use: [
++      'style-loader',
++      'css-loader',
++      'postcss-loader',
++      { loader: 'stylus-loader', options: { sourceMap: false } },
++    ]
++  },
++  {
++    test: /\.vue$/,
++    loader: 'vue-loader',
++    options: {
++      loaders: {
++        js: ['babel-loader', 'eslint-loader'],
++        css: [
++          'vue-style-loader',
++          'css-loader',
++          'postcss-loader',
++        ],
++        stylus: [
++          'vue-style-loader',
++          'css-loader',
++          'postcss-loader',
++          { loader: 'stylus-loader', options: { sourceMap: false } },
++        ],
++      },
++    },
++  },
+```
+
+生产环境需要抽离`css`和`stylus`
+webpack.prod.js
+```js
++  {
++    test: /\.styl$/,
++    use: [
++      MiniCssExtractPlugin.loader,
++      'css-loader',
++      'postcss-loader',
++      'stylus-loader'
++    ],
++  },
++  {
++    test: /\.vue$/,
++    loader: 'vue-loader',
++    options: {
++      loaders: {
++        js: [
++          'babel-loader',
++          'eslint-loader'
++        ],
++        css: [
++          'vue-style-loader',
++          MiniCssExtractPlugin.loader,
++          'css-loader',
++          'postcss-loader'
++        ],
++        stylus: [
++          'vue-style-loader',
++          MiniCssExtractPlugin.loader,
++          'css-loader',
++          'postcss-loader',
++          'stylus-loader'
++        ],
++      },
++    },
++  },
+```
+
+增加`eslint`插件
+```bash
+npm i eslint-plugin-vue -D
+```
+
+更新eslint规则
+.eslintrc.js
+```js
+module.exports = {
+  root: true,
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
+  },
+  parserOptions: {
+    parser: 'babel-eslint',
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+    },
+  },
+  extends: [
+    'plugin:vue/essential',
+    'eslint:recommended'
+  ],
+  // add your custom rules here
+  rules: {
+  },
+}
+```
+
+增加`babel`插件
+```bash
+npm i babel-preset-stage-2 -D
+```
+
+更新babel配置
+.babelrc
+```js
+{
+  "presets": ["env", "stage-2"]
 }
 ```
