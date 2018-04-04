@@ -167,13 +167,3 @@ webpack.prod.js
 ```
 
 执行`npm run build`，会发现css被单独打包并压缩了
-
-## 再优化一点点
-控制chunk最小值，让代码分割不过于碎片化
-```js
-  plugins: [
-+   new webpack.optimize.MinChunkSizePlugin({
-+     minChunkSize: 50000 // Minimum number of characters
-+   })
-  ]
-```

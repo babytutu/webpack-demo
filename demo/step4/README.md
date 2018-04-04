@@ -82,7 +82,6 @@ module.exports = merge(common, {
     open: true
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
 })
@@ -99,19 +98,10 @@ module.exports = merge(common, {
 
 - 新建打包需要的配置文件`webpack.prod.js`
 
-生产环境肯定是要压缩代码的，需要加`uglifyjs-webpack-plugin`
-
-```bash
-npm i uglifyjs-webpack-plugin -D
-```
-
-- 新建生产环境配置文件
-
 webpack.prod.js
 
 ```js
 const merge = require('webpack-merge')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const common = require('./webpack.common.js')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
@@ -120,7 +110,6 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(['dist'], {
       root: process.cwd()
     }),
-    new UglifyJSPlugin(),
   ],
   mode: 'production',
 })
