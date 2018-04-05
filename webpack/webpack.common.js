@@ -24,6 +24,9 @@ module.exports = {
       title: 'webpack-demo',
       template: path.join(process.cwd(), 'index.template.ejs'),
     }),
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 20000 // Minimum number of characters
+    })
   ],
   module: {
     rules: [
