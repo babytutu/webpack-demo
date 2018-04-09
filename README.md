@@ -201,3 +201,68 @@ npm i babel-preset-stage-2 -D
   "presets": ["env", "stage-2"]
 }
 ```
+
+## webpack DllPlugin
+拆分bundles，加速构建速度
+
+需要新增一个`webpack.dll.js`文件用于打包dll文件
+
+```js
+const webpack = require('webpack')
+const path = require('path')
+
+const vendors = [
+  'vue',
+]
+
+module.exports = {
+  mode: 'production',
+  context: process.cwd(),
+  output: {
+    path: path.join(process.cwd(), 'dll'),
+    filename: '[name].dll.js',
+    library: '[name]_[hash]',
+  },
+  entry: {
+    vendor: vendors,
+  },
+  plugins: [
+    new webpack.DllPlugin({
+      name: '[name]_[hash]',
+      path: path.join(process.cwd(), 'dll', '[name]-manifest.json'),
+    })
+  ]
+}
+```
+
+在基础配置中新增配置
+
+webpack.common.js
+```js
++   new webpack.DllReferencePlugin({
++     context: path.join(process.cwd()),
++     manifest: path.join(process.cwd(), './dll/vendor-manifest.json'),
++   }),
+```
+
+在生产环境中，需要把`dll`文件夹拷贝到打包目录`dist`中
+
+webpack.prod.js
+```js
++  const CopyWebpackPlugin = require('copy-webpack-plugin')
++    new CopyWebpackPlugin([{
++      // copy dll to dist
++      from: 'dll/*',
++    }])
+```
+
+运行开发`npm start`或打包生产环境代码`npm run build`前，都要先编译dll文件`npm run dll`，如果内容没有变化，dll文件不会重新打包
+
+package.json
+```json
+  "scripts": {
+    "start": "npm run dll && webpack-dev-server --config webpack/webpack.dev.js",
+    "dll": "webpack --config webpack/webpack.dll.js",
+    "build": "npm run dll && webpack --config webpack/webpack.prod.js"
+  },
+```

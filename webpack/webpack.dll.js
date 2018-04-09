@@ -14,7 +14,7 @@ module.exports = {
     library: '[name]_[hash]',
   },
   entry: {
-    "vendor": vendors,
+    vendor: vendors,
   },
   plugins: [
     new webpack.DllPlugin({
