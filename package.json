@@ -4,9 +4,10 @@
   "description": "webpack4 demo with vue&eslint&babel&stylus&postcss",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack/webpack.dev.js",
+    "start": "npm run dll && webpack-dev-server --config webpack/webpack.dev.js",
     "lint-fix": "eslint src --ext .js,.vue --fix",
-    "build": "webpack --config webpack/webpack.prod.js"
+    "dll": "webpack --config webpack/webpack.dll.js",
+    "build": "npm run dll && webpack --config webpack/webpack.prod.js"
   },
   "keywords": [
     "webpack",
@@ -25,6 +26,7 @@
     "babel-eslint": "^8.2.2",
     "babel-loader": "^8.0.0-beta.2",
     "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.10",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
