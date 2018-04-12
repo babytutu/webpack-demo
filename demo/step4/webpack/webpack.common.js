@@ -15,7 +15,6 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
     path: path.join(process.cwd(), 'dist'),
   },
   module: {
@@ -52,5 +51,9 @@ module.exports = {
     alias: {
       'src': path.join(process.cwd(), 'src')
     }
+  },
+  stats: {
+    // Add built modules information
+    modules: false,
   }
 };

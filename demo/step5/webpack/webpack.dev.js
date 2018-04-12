@@ -11,8 +11,11 @@ module.exports = merge(common, {
     useLocalIp: true,
     host: ip.address(),
     hot: true,
-    noInfo: true,
-    open: true
+    open: true,
+    stats: {
+      // Add built modules information
+      modules: false,
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()

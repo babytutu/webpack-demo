@@ -4,10 +4,10 @@
   "description": "webpack4 demo with vue&eslint&babel&stylus&postcss",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run dll && webpack-dev-server --config webpack/webpack.dev.js",
-    "lint-fix": "eslint src --ext .js,.vue --fix",
-    "dll": "webpack --config webpack/webpack.dll.js",
-    "build": "npm run dll && webpack --config webpack/webpack.prod.js"
+    "start": "node bin start",
+    "dll": "node bin dll",
+    "fix": "node bin fix",
+    "build": "node bin build"
   },
   "keywords": [
     "webpack",
@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "vue": "^2.5.16",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   }
 }

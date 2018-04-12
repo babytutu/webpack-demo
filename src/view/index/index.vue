@@ -6,17 +6,11 @@
     <div class="demo-logo webpack">
       <ver-icon label="webpack" ver="v4.1.1"></ver-icon>
     </div>
+    <div class="demo-logo vue">
+      <router-link to="count">vuex demo counter</router-link>
+    </div>
   </div>
 </template>
-
-<script>
-export default {
-  components: {
-    verIcon: () => import('./../../components/ver-icon.vue')
-  }
-}
-</script>
-
 
 <style lang="stylus" scoped>
 .vue

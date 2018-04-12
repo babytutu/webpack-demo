@@ -6,6 +6,7 @@
 </template>
 <script>
 export default {
+  name: 'ver-icon',
   props: ['label', 'ver']
 }
 </script>

@@ -39,21 +39,6 @@ mv webpack.config.js webpack/webpack.common.js
 
 去掉`webpack.common.js`中的`mode`和`devtool`因为开发模式不需要清理打包目录，也要去掉`CleanWebpackPlugin`,同时因为目录结构变了，`output`的目录也要改为`path: path.join(process.cwd(), 'dist'),`
 
-- 一般情况都是单入口文件，所以把`entry`和`output`也优化下
-```js
-  entry: {
-    app: './src/index.js',
--   print: './src/print.js',
-  },
-
-
-  output: {
-    filename: '[name].bundle.js',
-+   chunkFilename: '[name].bundle.js',
-    path: path.join(process.cwd(), 'dist'),
-  },
-```
-
 - 因为抽出了公共配置在`webpack.common.js`，需要再装个`webpack-merge`用于合并配置内容，本地开发最好把host设置为本地ip，需要一个`ip`包
 
 ```bash
@@ -78,8 +63,11 @@ module.exports = merge(common, {
     useLocalIp: true,
     host: ip.address(),
     hot: true,
-    noInfo: true,
-    open: true
+    open: true,
+    stats: {
+      // Add built modules information
+      modules: false,
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()

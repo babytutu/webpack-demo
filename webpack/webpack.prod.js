@@ -14,8 +14,8 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: '[name]-[hash:8].css',
+      chunkFilename: '[id]-[hash:8].css',
     }),
     new OptimizeCssAssetsPlugin(),
     new CopyWebpackPlugin([{

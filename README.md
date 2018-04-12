@@ -43,6 +43,7 @@ npm run build
 
 ## 目录
 ```bash
+├──  bin                           脚本统一管理
 ├──  demo                          demo目录，每个文件夹中都有步骤的说明
 │     ├──  step1                   从头开始
 │     ├──  step2                   附件的引入（Asset Management）
@@ -53,14 +54,17 @@ npm run build
 ├──  src                           vue目录
 │     ├──  assets                  图片，样式等
 │     ├──  components              组件
+│     ├──  router                  路由
+│     ├──  store                   vuex
 │     ├──  view                    页面
 │     ├──  app.vue                 底层模版
-│     ├──  index.js                开发入口
-│     └──  routes.js               路由总入口
+│     ├──  config.js               额外配置信息
+│     └──  index.js                开发入口
 │
 ├──  webpack                       webpack配置信息
 │     ├──  webpack.common.js       公共配置
 │     ├──  webpack.dev.js          开发模式配置
+│     ├──  webpack.dll.js          打包dll配置
 │     └──  webpack.prod.js         生产模式配置
 │
 ├──  .babelrc                      babel配置
@@ -77,7 +81,7 @@ npm run build
 ## 结合vue开发
 
 ```bash
-npm i vue vue-router
+npm i vue vue-router vuex
 npm i vue-loader vue-style-loader vue-template-compiler -D
 npm i stylus stylus-loader -D
 ```
@@ -213,6 +217,8 @@ const path = require('path')
 
 const vendors = [
   'vue',
+  'vue-router',
+  'vuex'
 ]
 
 module.exports = {
@@ -220,15 +226,15 @@ module.exports = {
   context: process.cwd(),
   output: {
     path: path.join(process.cwd(), 'dll'),
-    filename: '[name].dll.js',
-    library: '[name]_[hash]',
+    filename: '[name]_[hash:8].dll.js',
+    library: '[name]_[hash:8]',
   },
   entry: {
-    vendor: vendors,
+    vendors
   },
   plugins: [
     new webpack.DllPlugin({
-      name: '[name]_[hash]',
+      name: '[name]_[hash:8]',
       path: path.join(process.cwd(), 'dll', '[name]-manifest.json'),
     })
   ]
@@ -240,8 +246,7 @@ module.exports = {
 webpack.common.js
 ```js
 +   new webpack.DllReferencePlugin({
-+     context: path.join(process.cwd()),
-+     manifest: path.join(process.cwd(), './dll/vendor-manifest.json'),
++     manifest: require('./../dll/vendors-manifest.json'),
 +   }),
 ```
 
@@ -261,8 +266,9 @@ webpack.prod.js
 package.json
 ```json
   "scripts": {
-    "start": "npm run dll && webpack-dev-server --config webpack/webpack.dev.js",
-    "dll": "webpack --config webpack/webpack.dll.js",
-    "build": "npm run dll && webpack --config webpack/webpack.prod.js"
+    "start": "node bin start",
+    "dll": "node bin dll",
+    "fix": "node bin fix",
+    "build": "node bin build"
   },
 ```

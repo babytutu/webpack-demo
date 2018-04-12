@@ -2,6 +2,8 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack =  require('webpack')
 
+const {name} = require('./../dll/vendors-manifest.json')
+
 let favicon = path.join(process.cwd(), 'favicon.ico')
 
 if (!require('fs').existsSync(favicon)) {
@@ -14,19 +16,19 @@ module.exports = {
     app: './src/index.js',
   },
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name]_[hash:8].bundle.js',
     path: path.join(process.cwd(), 'dist'),
+    publicPath: ''
   },
   plugins: [
     new HtmlWebpackPlugin({
       favicon,
       title: 'webpack-demo',
       template: path.join(process.cwd(), 'index.template.ejs'),
+      dll: `dll/${name}.dll.js`
     }),
     new webpack.DllReferencePlugin({
-      context: path.join(process.cwd()),
-      manifest: path.join(process.cwd(), './dll/vendor-manifest.json'),
+      manifest: require('./../dll/vendors-manifest.json'),
     }),
     new webpack.optimize.MinChunkSizePlugin({
       minChunkSize: 20000 // Minimum number of characters
@@ -60,5 +62,9 @@ module.exports = {
     alias: {
       'src': path.join(process.cwd(), 'src')
     }
+  },
+  stats: {
+    // Add built modules information
+    modules: false,
   }
 }

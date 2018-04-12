@@ -10,12 +10,7 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(['dist'], {
       root: process.cwd()
     }),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    }),
+    new MiniCssExtractPlugin(),
     new OptimizeCssAssetsPlugin(),
   ],
   module: {
