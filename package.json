@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node bin start",
+    "eslint": "node bin eslint",
     "dll": "node bin dll",
     "fix": "node bin fix",
     "build": "node bin build"

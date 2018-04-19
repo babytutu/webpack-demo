@@ -5,6 +5,7 @@ const { spawnSync } = require('child_process')
 const commands = {
   start: 'npm run dll && webpack-dev-server --config webpack/webpack.dev.js',
   dll: 'webpack --config webpack/webpack.dll.js',
+  eslint: 'eslint src --ext .js,.vue',
   fix: 'eslint src --ext .js,.vue --fix',
   build: 'npm run dll && webpack --config webpack/webpack.prod.js',
   help: 'help',
