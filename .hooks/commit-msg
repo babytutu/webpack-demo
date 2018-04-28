@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+message_file = ARGV[0]
+message = File.read(message_file)
+
+$regex = /^(feat|fix|refactor|css):.+/
+
+if !$regex.match(message)
+  puts "[警告] 提交格式不正确"
+  puts "[提示] 请以feat|fix|refactor|css开头,:间隔,填写提交信息"
+  puts "[示例] feat:增加了新功能"
+  exit 1
+end
