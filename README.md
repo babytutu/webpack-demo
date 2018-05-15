@@ -50,7 +50,7 @@ npm run build
 │     ├──  step3                   打包输出（Output Management）
 │     ├──  step4                   开发（Development）
 │     └──  step5                   完成webpack配置
-│
+├──  hooks                         git钩子，postinstall自动拷贝文件到.git/hooks目录
 ├──  src                           vue目录
 │     ├──  assets                  图片，样式等
 │     ├──  components              组件
@@ -60,13 +60,11 @@ npm run build
 │     ├──  app.vue                 底层模版
 │     ├──  config.js               额外配置信息
 │     └──  index.js                开发入口
-│
 ├──  webpack                       webpack配置信息
 │     ├──  webpack.common.js       公共配置
 │     ├──  webpack.dev.js          开发模式配置
 │     ├──  webpack.dll.js          打包dll配置
 │     └──  webpack.prod.js         生产模式配置
-│
 ├──  .babelrc                      babel配置
 ├──  .eslintrc.js                  eslint配置
 ├──  .gitignore                    git忽略文件
