@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack =  require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const {name} = require('./../dll/vendors-manifest.json')
 
@@ -32,7 +33,8 @@ module.exports = {
     }),
     new webpack.optimize.MinChunkSizePlugin({
       minChunkSize: 20000 // Minimum number of characters
-    })
+    }),
+    new VueLoaderPlugin()
   ],
   module: {
     rules: [
@@ -61,7 +63,11 @@ module.exports = {
           'babel-loader',
           'eslint-loader',
         ],
-      }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
     ],
   },
   resolve: {
