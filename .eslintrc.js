@@ -13,6 +13,9 @@ module.exports = {
     'plugin:vue/essential',
     'eslint:recommended'
   ],
+  plugins: [
+    'vue',
+  ],
   // add your custom rules here
   rules: {
     'no-unused-vars': [0],

@@ -12,15 +12,15 @@ module.exports = {
   context: process.cwd(),
   output: {
     path: path.join(process.cwd(), 'dll'),
-    filename: '[name]_[hash:8].dll.js',
-    library: '[name]_[hash:8]',
+    filename: '[name].dll.js',
+    library: '[name]',
   },
   entry: {
     vendors
   },
   plugins: [
     new webpack.DllPlugin({
-      name: '[name]_[hash:8]',
+      name: '[name]',
       path: path.join(process.cwd(), 'dll', '[name]-manifest.json'),
     })
   ],

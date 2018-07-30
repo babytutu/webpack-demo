@@ -26,7 +26,6 @@ module.exports = merge(common, {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'style-loader',
           'css-loader',
           'postcss-loader',
         ]

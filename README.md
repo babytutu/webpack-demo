@@ -84,85 +84,105 @@ npm i vue-loader vue-style-loader vue-template-compiler -D
 npm i stylus stylus-loader -D
 ```
 
+### 设置vue-loader
+
 需要为`.vue`和`.styl`文件增加`loader`设置
 vue推荐用单文件模式开发，就是`.vue`文件中包含了`script`和`css`等
-开发模式，优先于`postcss-loader`加载的规则如`stylus-loader`需要设置`sourceMap`
+
+webpack.common.js
+```js
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
+module.exports = {
+  plugins: [
+    new VueLoaderPlugin()
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+    ]
+  }
+}
+```
+
+开发模式设置样式加载,`vue-loader`升级到15后，会把.vue文件中的css,stylus等拆分出来，加载规则直接和样式的写在一起即可
 
 webpack.dev.js
 ```js
-+  {
-+    test: /\.styl$/,
-+    use: [
-+      'style-loader',
-+      'css-loader',
-+      'postcss-loader',
-+      { loader: 'stylus-loader', options: { sourceMap: false } },
-+    ]
-+  },
-+  {
-+    test: /\.vue$/,
-+    loader: 'vue-loader',
-+    options: {
-+      loaders: {
-+        js: ['babel-loader', 'eslint-loader'],
-+        css: [
-+          'vue-style-loader',
-+          'css-loader',
-+          'postcss-loader',
-+        ],
-+        stylus: [
-+          'vue-style-loader',
-+          'css-loader',
-+          'postcss-loader',
-+          { loader: 'stylus-loader', options: { sourceMap: false } },
-+        ],
-+      },
-+    },
-+  },
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'postcss-loader',
+        ]
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'postcss-loader',
+          'stylus-loader',
+        ]
+      },
+    ]
+  },
+}
 ```
 
-生产环境需要抽离`css`和`stylus`
+生产环境需要抽离并压缩`css`和`stylus`
 webpack.prod.js
 ```js
-+  {
-+    test: /\.styl$/,
-+    use: [
-+      MiniCssExtractPlugin.loader,
-+      'css-loader',
-+      'postcss-loader',
-+      'stylus-loader'
-+    ],
-+  },
-+  {
-+    test: /\.vue$/,
-+    loader: 'vue-loader',
-+    options: {
-+      loaders: {
-+        js: [
-+          'babel-loader',
-+          'eslint-loader'
-+        ],
-+        css: [
-+          'vue-style-loader',
-+          MiniCssExtractPlugin.loader,
-+          'css-loader',
-+          'postcss-loader'
-+        ],
-+        stylus: [
-+          'vue-style-loader',
-+          MiniCssExtractPlugin.loader,
-+          'css-loader',
-+          'postcss-loader',
-+          'stylus-loader'
-+        ],
-+      },
-+    },
-+  },
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+
+module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name]-[hash:8].css',
+      chunkFilename: '[id]-[hash:8].css',
+    }),
+    new OptimizeCssAssetsPlugin(),
+  ],
+  module: {
+    rules: [{
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader'
+        ],
+      },
+      {
+        test: /\.styl(us)?$/,
+        use: [
+          'vue-style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'stylus-loader'
+        ],
+      },
+    ],
+  },
+}
 ```
 
-增加`eslint`插件
+### 增加eslint插件
+因为eslint出5了，而`eslint-plugin-vue`正式版还未出，为了保持版本一致性，安装了beta版本，不能忍受安装时的版本校验不通过warning
+
 ```bash
-npm i eslint-plugin-vue -D
+npm i eslint-plugin-vue@next -D
 ```
 
 更新eslint规则
@@ -177,13 +197,14 @@ module.exports = {
   },
   parserOptions: {
     parser: 'babel-eslint',
-    ecmaFeatures: {
-      experimentalObjectRestSpread: true,
-    },
+    ecmaVersion: 6,
   },
   extends: [
     'plugin:vue/essential',
     'eslint:recommended'
+  ],
+  plugins: [
+    'vue',
   ],
   // add your custom rules here
   rules: {
@@ -191,21 +212,62 @@ module.exports = {
 }
 ```
 
-增加`babel`插件
+配置强制校验，能够实时验证代码准确性
+
+webpack.common.js
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
+    ]
+  }
+}
+```
+
+
+### 增加babel插件
+
 ```bash
-npm i babel-preset-stage-2 -D
+npm i @babel/core @babel/preset-env @babel/plugin-syntax-dynamic-import -D
 ```
 
 更新babel配置
 .babelrc
-```js
+```json
 {
-  "presets": ["env", "stage-2"]
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "@babel/syntax-dynamic-import"
+  ]
 }
 ```
 
+### 配置postcss
+
+为了少写代码，又能兼容各种奇葩浏览器，`postcss`是常规操作，除了在样式加载中增加`postcss-loader`,还需要写一个单独的配置文件,也就是加几个plugins的事情，命名规则有点向babel靠拢，人家不用next，用了env，这边也跟上了
+
+postcss.config.js
+```js
+module.exports = {
+  plugins: {
+    'postcss-import': {},
+    'postcss-preset-env': {},
+  },
+}
+```
+
+
 ## webpack DllPlugin
-拆分bundles，加速构建速度
+分离第三方库，加速构建速度，主要是把一些不经常更新版本，或者说不太敢更新版本的必要依赖打个固定包，不用每次都重新编译，开发和线上都能更高效，一般来说，会把vue全家桶打个dll，就这3位已经100k了。。。
 
 需要新增一个`webpack.dll.js`文件用于打包dll文件
 
@@ -258,6 +320,13 @@ webpack.prod.js
 +      from: 'dll/*',
 +    }])
 ```
+
+在模版中，还要插入这个打包出来的dll文件
+```html
+<script src="<%= webpackConfig.output.publicPath + htmlWebpackPlugin.options.dll %>" charset="utf-8"></script>
+```
+
+
 
 运行开发`npm start`或打包生产环境代码`npm run build`前，都要先编译dll文件`npm run dll`，如果内容没有变化，dll文件不会重新打包
 
