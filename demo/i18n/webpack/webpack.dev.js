@@ -25,39 +25,19 @@ module.exports = merge(common, {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          'vue-style-loader',
           'css-loader',
           'postcss-loader',
         ]
       },
       {
-        test: /\.styl$/,
+        test: /\.styl(us)?$/,
         use: [
-          'style-loader',
+          'vue-style-loader',
           'css-loader',
           'postcss-loader',
-          { loader: 'stylus-loader', options: { sourceMap: false } },
+          'stylus-loader',
         ]
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-            js: ['babel-loader', 'eslint-loader'],
-            css: [
-              'vue-style-loader',
-              'css-loader',
-              'postcss-loader',
-            ],
-            stylus: [
-              'vue-style-loader',
-              'css-loader',
-              'postcss-loader',
-              { loader: 'stylus-loader', options: { sourceMap: false } },
-            ],
-          },
-        },
       },
     ]
   },

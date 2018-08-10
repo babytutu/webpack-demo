@@ -14,8 +14,8 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: '[name]-[hash:8].css',
-      chunkFilename: '[id]-[hash:8].css',
+      filename: '[name]-[chunkhash:8].css',
+      chunkFilename: '[id]-[chunkhash:8].css',
     }),
     new OptimizeCssAssetsPlugin(),
     new CopyWebpackPlugin([{
@@ -33,38 +33,13 @@ module.exports = merge(common, {
         ],
       },
       {
-        test: /\.styl$/,
+        test: /\.styl(us)?$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'stylus-loader'
         ],
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {
-            js: [
-              'babel-loader',
-              'eslint-loader'
-            ],
-            css: [
-              'vue-style-loader',
-              MiniCssExtractPlugin.loader,
-              'css-loader',
-              'postcss-loader'
-            ],
-            stylus: [
-              'vue-style-loader',
-              MiniCssExtractPlugin.loader,
-              'css-loader',
-              'postcss-loader',
-              'stylus-loader'
-            ],
-          },
-        },
       },
     ],
   },
