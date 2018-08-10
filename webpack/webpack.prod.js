@@ -14,8 +14,8 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: '[name]-[hash:8].css',
-      chunkFilename: '[id]-[hash:8].css',
+      filename: '[name]-[contenthash:8].css',
+      chunkFilename: '[id]-[contenthash:8].css',
     }),
     new OptimizeCssAssetsPlugin(),
     new CopyWebpackPlugin([{
@@ -27,7 +27,6 @@ module.exports = merge(common, {
     rules: [{
         test: /\.css$/,
         use: [
-          'vue-style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader'
@@ -36,7 +35,6 @@ module.exports = merge(common, {
       {
         test: /\.styl(us)?$/,
         use: [
-          'vue-style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',

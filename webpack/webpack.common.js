@@ -46,9 +46,11 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
-              name: 'assets/[path][name].[ext]',
+              name: '[path][name].[ext]',
+              outputPath: 'assets/',
+              limit: 8192
             }
           }
         ],
@@ -57,9 +59,11 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
-              name: 'assets/[path][name].[ext]',
+              name: '[path][name].[ext]',
+              outputPath: 'assets/',
+              limit: 8192
             }
           }
         ],

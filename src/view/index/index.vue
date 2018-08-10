@@ -1,10 +1,10 @@
 <template>
   <div class="demo">
     <div class="demo-logo vue">
-      <ver-icon label="vue" ver="v2.5.16"></ver-icon>
+      <ver-icon label="vue" ver="v2.5.17"></ver-icon>
     </div>
     <div class="demo-logo webpack">
-      <ver-icon label="webpack" ver="v4.1.1"></ver-icon>
+      <ver-icon label="webpack" ver="v4.16.5"></ver-icon>
     </div>
     <div class="demo-logo vue">
       <router-link to="count">vuex demo counter</router-link>
